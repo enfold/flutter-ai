@@ -390,8 +390,10 @@ class _LlmChatViewState extends State<LlmChatView>
     }
   }
 
-  void _onSelectSuggestion(String suggestion) =>
-      setState(() => _initialMessage = ChatMessage.user(suggestion, []));
+  void _onSelectSuggestion(String suggestion) {
+    setState(() => _initialMessage = ChatMessage.user(suggestion, []));
+    _onSendMessage(suggestion, []);
+  }
 
   void _onHistoryChanged() {
     // if the history is cleared, clear the initial message
