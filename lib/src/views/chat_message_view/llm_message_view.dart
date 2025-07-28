@@ -4,6 +4,7 @@
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../chat_view_model/chat_view_model_client.dart';
 import '../../providers/interface/chat_message.dart';
@@ -89,6 +90,19 @@ class LlmMessageView extends StatelessWidget {
                                             data: text,
                                             selectable: false,
                                             styleSheet: llmStyle.markdownStyle,
+                                            onTapLink: (
+                                              text,
+                                              href,
+                                              title,
+                                            ) async {
+                                              if (href == null) {
+                                                return;
+                                              }
+                                              await launchUrl(
+                                                Uri.parse(href),
+                                                webOnlyWindowName: '_blank',
+                                              );
+                                            },
                                           )
                                           : viewModel.responseBuilder!(
                                             context,
