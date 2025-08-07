@@ -46,6 +46,17 @@ abstract final class ToolkitTextStyles {
     fontWeight: FontWeight.w400,
   );
 
+  /// Primary link text style.
+  ///
+  /// Used for the link text in the application.
+  static final TextStyle link = GoogleFonts.roboto(
+    color: ToolkitColors.linkText,
+    fontSize: 16,
+    decoration: TextDecoration.underline,
+    decorationColor: ToolkitColors.linkText,
+    fontWeight: FontWeight.w400,
+  );
+
   /// Code text style.
   ///
   /// Used for displaying code snippets or monospaced text.
