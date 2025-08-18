@@ -73,7 +73,7 @@ class LlmMessageView extends StatelessWidget {
                         margin: const EdgeInsets.only(left: 28),
                         padding: const EdgeInsets.all(8),
                         child:
-                            text == null
+                            (text == null || text.isEmpty)
                                 ? SizedBox(
                                   width: 32,
                                   child: JumpingDotsProgressIndicator(
