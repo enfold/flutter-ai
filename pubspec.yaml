@@ -1,3 +1,4 @@
+publish_to: none
 name: flutter_ai_toolkit
 description: >-
   A set of AI chat-related widgets for Flutter apps targeting
@@ -20,7 +21,8 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_context_menu: ^0.2.0
-  flutter_markdown_plus: ^1.0.3
+  flutter_markdown_plus:
+    git: https://github.com/enfoldsystems/flutter_markdown_plus.git
   flutter_picture_taker: ^0.2.0
   google_fonts: ^6.2.1
   image_picker: ^1.1.2
