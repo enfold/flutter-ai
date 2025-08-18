@@ -2,7 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
+
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -90,6 +91,7 @@ class LlmMessageView extends StatelessWidget {
                                             data: text,
                                             selectable: false,
                                             styleSheet: llmStyle.markdownStyle,
+                                            imageBuilder: _imageBuilder,
                                             onTapLink: (
                                               text,
                                               href,
@@ -121,4 +123,66 @@ class LlmMessageView extends StatelessWidget {
       const Flexible(flex: 2, child: SizedBox()),
     ],
   );
+
+  Widget _imageBuilder(
+    Uri uri,
+    String? title,
+    String? alt,
+    Widget Function(Uri, String?, double?, double?)? defaultImageBuilder,
+  ) {
+    return Row(
+      children: [
+        LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+            const double percentage = 0.5;
+            const double minHeight = 50;
+            const double minWidth = 50;
+            const double maxHeight = 400;
+            final double maxWidth =
+                MediaQuery.of(context).size.width * percentage;
+            return ConstrainedBox(
+              constraints: BoxConstraints(
+                minWidth: minWidth,
+                minHeight: minHeight,
+                maxWidth: maxWidth,
+                maxHeight: maxHeight,
+              ),
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute<Widget>(
+                        builder: (_) {
+                          return Scaffold(
+                            appBar: AppBar(
+                              leading: IconButton(
+                                onPressed: () => Navigator.pop(context),
+                                icon: const Icon(Icons.arrow_back),
+                              ),
+                            ),
+                            body: InteractiveViewer(
+                              child: defaultImageBuilder(
+                                uri,
+                                null,
+                                null,
+                                null,
+                              ),
+                            ),
+                            extendBody: true,
+                          );
+                        },
+                      ),
+                    );
+                  },
+                  child: defaultImageBuilder!(uri, null, null, null),
+                ),
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
 }
