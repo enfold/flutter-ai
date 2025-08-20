@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/cupertino.dart' show BuildContext, CupertinoApp;
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:universal_platform/universal_platform.dart';
 
@@ -52,8 +53,17 @@ final isMobile = UniversalPlatform.isAndroid || UniversalPlatform.isIOS;
 ///   clipboard and the confirmation message has been shown.
 Future<void> copyToClipboard(BuildContext context, String text) async {
   await Clipboard.setData(ClipboardData(text: text));
-  if (context.mounted) {
-    AdaptiveSnackBar.show(context, 'Message copied to clipboard');
+
+  int messageCount = _MessageCounter.instance.messageCount;
+  if (messageCount < 3 && context.mounted) {
+    messageCount++;
+    _MessageCounter.instance.incrementCount();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        showCloseIcon: true,
+        content: Text('Message copied to new snackbar clipboard'),
+      ),
+    );
   }
 }
 
@@ -75,3 +85,27 @@ Color? invertColor(Color? color) =>
           blue: 1 - color.b,
         )
         : null;
+
+class _MessageCounter {
+  // Private constructor
+  _MessageCounter._privateConstructor();
+
+  // Singleton instance
+  static final _MessageCounter instance = _MessageCounter._privateConstructor();
+
+  // Message count
+  int _messageCount = 0;
+
+  // Getter for the message count
+  int get messageCount => _messageCount;
+
+  // Method to increment the message count
+  void incrementCount() {
+    _messageCount++;
+  }
+
+  // Method to reset the message count (if needed)
+  void resetCount() {
+    _messageCount = 0;
+  }
+}
