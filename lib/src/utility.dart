@@ -61,7 +61,7 @@ Future<void> copyToClipboard(BuildContext context, String text) async {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         showCloseIcon: true,
-        content: Text('Message copied to new snackbar clipboard'),
+        content: Text('Message copied to clipboard'),
       ),
     );
   }
