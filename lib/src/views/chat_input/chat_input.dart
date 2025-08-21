@@ -226,7 +226,7 @@ class _ChatInputState extends State<ChatInput> {
     if (_textController.text.trim().isEmpty) {
       return _viewModel!.enableVoiceNotes
           ? InputState.canStt
-          : InputState.disabled;
+          : InputState.empty;
     }
     if (widget.disable) {
       return InputState.disabled;
