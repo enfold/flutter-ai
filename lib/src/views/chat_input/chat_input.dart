@@ -220,6 +220,9 @@ class _ChatInputState extends State<ChatInput> {
   );
 
   InputState get _inputState {
+    if (widget.disable) {
+      return InputState.disabled;
+    }
     if (_waveController.isRecording) return InputState.isRecording;
     if (widget.onCancelMessage != null) return InputState.canCancelPrompt;
     if (widget.onCancelStt != null) return InputState.canCancelStt;
@@ -227,9 +230,6 @@ class _ChatInputState extends State<ChatInput> {
       return _viewModel!.enableVoiceNotes
           ? InputState.canStt
           : InputState.empty;
-    }
-    if (widget.disable) {
-      return InputState.disabled;
     }
     return InputState.canSubmitPrompt;
   }
