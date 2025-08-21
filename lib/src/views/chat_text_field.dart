@@ -66,7 +66,7 @@ class ChatTextField extends StatelessWidget {
   final EdgeInsetsGeometry? hintPadding;
 
   /// Called when the user submits editable content.
-  final void Function(String text) onSubmitted;
+  final void Function(String text)? onSubmitted;
 
   @override
   Widget build(BuildContext context) =>
@@ -95,6 +95,7 @@ class ChatTextField extends StatelessWidget {
             focusNode: focusNode,
             textInputAction: textInputAction,
             onSubmitted: onSubmitted,
+            enabled: onSubmitted != null,
             style: style,
             decoration: InputDecoration(
               border: InputBorder.none,

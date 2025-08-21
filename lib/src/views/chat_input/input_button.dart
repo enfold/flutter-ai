@@ -73,7 +73,7 @@ class InputButton extends StatelessWidget {
     ),
     InputState.disabled => ActionButton(
       style: chatStyle.disabledButtonStyle!,
-      onPressed: () {},
+      onPressed: null,
     ),
   };
 }
