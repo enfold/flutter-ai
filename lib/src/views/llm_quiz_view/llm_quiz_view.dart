@@ -259,6 +259,10 @@ class _LlmQuizViewState extends State<LlmQuizView>
     _associatedResponse = null;
     widget.viewModel.suggestions.clear();
 
+    if (_quizFinished) {
+      return;
+    }
+
     // check the viewmodel for a user-provided message sender to use instead
     final sendMessageStream =
         widget.viewModel.messageSender ??
