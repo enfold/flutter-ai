@@ -5,8 +5,9 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+
 import 'package:cross_file/cross_file.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_ai_toolkit/src/providers/interface/message_origin.dart';
 import 'package:flutter_ai_toolkit/src/views/llm_chat_view/llm_response.dart';
 
@@ -68,6 +69,8 @@ class LlmQuizView extends StatefulWidget {
   LlmQuizView({
     required LlmProvider provider,
     required Map<String, dynamic> quiz,
+    required this.returnToRooms,
+    required this.startOver,
     LlmChatViewStyle? style,
     ResponseBuilder? responseBuilder,
     LlmStreamGenerator? messageSender,
@@ -149,6 +152,12 @@ class LlmQuizView extends StatefulWidget {
 
   /// List of quiz questions
   final List<Map<String, dynamic>> questions;
+
+  /// Function to redirect users after the quiz.
+  final VoidCallback returnToRooms;
+
+  /// Function to restart the quiz.
+  final VoidCallback startOver;
 
   @override
   State<LlmQuizView> createState() => _LlmQuizViewState();
@@ -297,6 +306,46 @@ class _LlmQuizViewState extends State<LlmQuizView>
       _questionIndex++;
     });
     if (_quizFinished) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          final chatStyle = LlmChatViewStyle.resolve(widget.viewModel.style);
+          return Center(
+            child: Dialog(
+              backgroundColor: chatStyle.backgroundColor,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text(
+                    'Assessment Complete!',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Text(_getQuizSummaryStat()),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          widget.returnToRooms();
+                          Navigator.of(context).pop();
+                        },
+                        child: Text('Return to Rooms'),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          widget.startOver();
+                          Navigator.of(context).pop();
+                        },
+                        child: Text('Start Over'),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      );
       return;
     }
     final history = widget.viewModel.provider.history.toList();
@@ -313,6 +362,41 @@ class _LlmQuizViewState extends State<LlmQuizView>
       widget.questions[_questionIndex]['metadata']['options'],
     );
   }
+
+  String _getQuizSummaryStat() {
+    final history = widget.viewModel.provider.history.toList();
+    final userResponses =
+        history.where((e) => e.origin == MessageOrigin.user).toList();
+
+    final startingPosition = widget.viewModel.welcomeMessage == null ? 0 : 1;
+    int correct = 0;
+    int incorrect = 0;
+    for (int i = startingPosition; i < history.length; i += 3) {
+      final messageIndex = (i - startingPosition) ~/ 3;
+      if (userResponses[messageIndex].text != 'Correct') {
+        incorrect++;
+      } else {
+        correct++;
+      }
+    }
+    return '$correct/${correct + incorrect}';
+  }
+
+  // For sending to back end
+  // String _getQuizSummaryJson() {
+  //   final userResponses =
+  //       widget.viewModel.provider.history
+  //           .where((e) => e.origin == MessageOrigin.user)
+  //           .toList();
+
+  //   final output = <String, String>{};
+
+  //   for (int i = 0; i < widget.questions.length; i++) {
+  //     output[widget.questions[i]['uuid']] = userResponses[i].text!;
+  //   }
+
+  //   return jsonEncode(output);
+  // }
 
   void _onCancelMessage() => _pendingPromptResponse?.cancel();
 
