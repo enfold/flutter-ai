@@ -365,15 +365,12 @@ class _LlmQuizViewState extends State<LlmQuizView>
 
   String _getQuizSummaryStat() {
     final history = widget.viewModel.provider.history.toList();
-    final userResponses =
-        history.where((e) => e.origin == MessageOrigin.user).toList();
-
     final startingPosition = widget.viewModel.welcomeMessage == null ? 0 : 1;
     int correct = 0;
     int incorrect = 0;
+
     for (int i = startingPosition; i < history.length; i += 3) {
-      final messageIndex = (i - startingPosition) ~/ 3;
-      if (userResponses[messageIndex].text != 'Correct') {
+      if (history[i + 2].text != 'Correct!') {
         incorrect++;
       } else {
         correct++;
