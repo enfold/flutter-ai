@@ -309,10 +309,10 @@ class _LlmQuizViewState extends State<LlmQuizView>
       showDialog(
         context: context,
         builder: (context) {
-          final chatStyle = LlmChatViewStyle.resolve(widget.viewModel.style);
           return Center(
             child: Dialog(
-              backgroundColor: chatStyle.backgroundColor,
+              // TODO: Style properly
+              backgroundColor: Colors.white,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
