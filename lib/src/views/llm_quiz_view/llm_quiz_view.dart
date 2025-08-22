@@ -310,38 +310,31 @@ class _LlmQuizViewState extends State<LlmQuizView>
         context: context,
         builder: (context) {
           return Center(
-            child: Dialog(
+            child: AlertDialog(
               // TODO: Style properly
               backgroundColor: Colors.white,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Text(
-                    'Assessment Complete!',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  Text(_getQuizSummaryStat()),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          widget.returnToRooms();
-                          Navigator.of(context).pop();
-                        },
-                        child: Text('Return to Rooms'),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          widget.startOver();
-                          Navigator.of(context).pop();
-                        },
-                        child: Text('Start Over'),
-                      ),
-                    ],
-                  ),
-                ],
+              title: const Text('Assessment Complete!'),
+              content: Center(
+                heightFactor: 2.0,
+                child: Text('Your Score: ${_getQuizSummaryStat()}'),
               ),
+              actionsAlignment: MainAxisAlignment.spaceBetween,
+              actions: [
+                ElevatedButton(
+                  onPressed: () {
+                    widget.returnToRooms();
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Return Home'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    widget.startOver();
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Start Over'),
+                ),
+              ],
             ),
           );
         },
