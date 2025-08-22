@@ -28,7 +28,7 @@ class ActionButton extends StatelessWidget {
 
   /// The callback that is called when the button is tapped.
   /// If null, the button will be disabled.
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
   /// The style of the button.
   final ActionButtonStyle style;

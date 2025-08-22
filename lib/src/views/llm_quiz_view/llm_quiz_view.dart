@@ -242,6 +242,7 @@ class _LlmQuizViewState extends State<LlmQuizView>
                       onTranslateStt: _onTranslateStt,
                       onCancelStt:
                           _pendingSttResponse == null ? null : _onCancelStt,
+                      disable: _quizFinished,
                     ),
                   ],
                 ),

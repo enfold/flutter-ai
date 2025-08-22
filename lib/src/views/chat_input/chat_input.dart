@@ -39,6 +39,7 @@ class ChatInput extends StatefulWidget {
     this.onCancelMessage,
     this.onCancelStt,
     this.autofocus = true,
+    this.disable = false,
     super.key,
   }) : assert(
          !(onCancelMessage != null && onCancelStt != null),
@@ -80,6 +81,9 @@ class ChatInput extends StatefulWidget {
 
   /// Whether the input should automatically focus
   final bool autofocus;
+
+  /// Whether the input should be disabled
+  final bool disable;
 
   @override
   State<ChatInput> createState() => _ChatInputState();
@@ -216,13 +220,16 @@ class _ChatInputState extends State<ChatInput> {
   );
 
   InputState get _inputState {
+    if (widget.disable) {
+      return InputState.disabled;
+    }
     if (_waveController.isRecording) return InputState.isRecording;
     if (widget.onCancelMessage != null) return InputState.canCancelPrompt;
     if (widget.onCancelStt != null) return InputState.canCancelStt;
     if (_textController.text.trim().isEmpty) {
       return _viewModel!.enableVoiceNotes
           ? InputState.canStt
-          : InputState.disabled;
+          : InputState.empty;
     }
     return InputState.canSubmitPrompt;
   }

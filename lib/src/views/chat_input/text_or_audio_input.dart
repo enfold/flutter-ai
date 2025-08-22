@@ -96,9 +96,11 @@ class TextOrAudioInput extends StatelessWidget {
                               ? TextInputAction.newline
                               : TextInputAction.done,
                       onSubmitted:
-                          _inputState == InputState.canSubmitPrompt
-                              ? (_) => _onSubmitPrompt()
-                              : (_) => _focusNode.requestFocus(),
+                          _inputState == InputState.disabled
+                              ? null
+                              : (_inputState == InputState.canSubmitPrompt
+                                  ? (_) => _onSubmitPrompt()
+                                  : (_) => _focusNode.requestFocus()),
                       style: _inputStyle.textStyle!,
                       hintText: _inputStyle.hintText!,
                       hintStyle: _inputStyle.hintStyle!,
