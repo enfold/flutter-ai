@@ -97,6 +97,7 @@ class LlmQuizView extends StatefulWidget {
          enableAttachments: enableAttachments,
          enableVoiceNotes: enableVoiceNotes,
        ),
+       roomId = quiz['room_id'],
        quizId = quiz['id'],
        questions = quiz['questions'];
 
@@ -146,6 +147,9 @@ class LlmQuizView extends StatefulWidget {
   /// presence of suggestions. If there are no suggestions, the input field
   /// will be focused automatically.
   final bool? autofocus;
+
+  /// Room id
+  final String roomId;
 
   /// Quiz id
   final String quizId;
@@ -279,6 +283,7 @@ class _LlmQuizViewState extends State<LlmQuizView>
         widget.viewModel.provider.sendMessageStream;
 
     final message = jsonEncode({
+      'roomId': widget.roomId,
       'quizId': widget.quizId,
       'questionId': widget.questions[_questionIndex]['uuid'],
       'message': prompt,
