@@ -1,3 +1,7 @@
+## 0.9.3
+
+- Numerous fixes to support gen_ai llm and quiz views 
+
 ## 0.9.2
 
 - fix [#137](https://github.com/flutter/ai/issues/137): Link Attachments are not
