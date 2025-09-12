@@ -1,3 +1,7 @@
+# 0.9.4
+
+- Update llmQuizView questionId mapping
+
 ## 0.9.3
 
 - Numerous fixes to support gen_ai llm and quiz views 

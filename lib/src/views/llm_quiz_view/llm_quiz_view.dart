@@ -285,7 +285,7 @@ class _LlmQuizViewState extends State<LlmQuizView>
     final message = jsonEncode({
       'roomId': widget.roomId,
       'quizId': widget.quizId,
-      'questionId': widget.questions[_questionIndex]['uuid'],
+      'questionId': widget.questions[_questionIndex]['metadata']['uuid'],
       'message': prompt,
     });
 
