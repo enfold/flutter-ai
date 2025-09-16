@@ -1,3 +1,7 @@
+# 0.9.5
+
+- Enable web to enter newline when pressing SHIFT + ENTER.
+
 # 0.9.4
 
 - Update llmQuizView questionId mapping

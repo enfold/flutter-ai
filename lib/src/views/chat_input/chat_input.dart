@@ -2,8 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'package:file_selector/file_selector.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+
+import 'package:file_selector/file_selector.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:waveform_recorder/waveform_recorder.dart';
 
@@ -112,7 +114,7 @@ class _ChatInputState extends State<ChatInput> {
   // - the reason we need to request focus in the implementation of the separate
   //   submit/cancel button is because  clicking on another widget when the
   //   TextField is focused causes it to lose focus (as it should)
-  final _focusNode = FocusNode();
+  late final FocusNode _focusNode;
 
   final _textController = TextEditingController();
   final _waveController = WaveformRecorderController();
@@ -121,6 +123,25 @@ class _ChatInputState extends State<ChatInput> {
   ChatViewModel? _viewModel;
   ChatInputStyle? _inputStyle;
   LlmChatViewStyle? _chatStyle;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _focusNode = FocusNode(
+      onKeyEvent: (FocusNode node, KeyEvent evt) {
+        if (!HardwareKeyboard.instance.isShiftPressed &&
+            evt.logicalKey.keyLabel == 'Enter') {
+          if (evt is KeyDownEvent) {
+            onSubmitPrompt();
+          }
+          return KeyEventResult.handled;
+        } else {
+          return KeyEventResult.ignored;
+        }
+      },
+    );
+  }
 
   @override
   void didChangeDependencies() {
@@ -235,7 +256,14 @@ class _ChatInputState extends State<ChatInput> {
   }
 
   void onSubmitPrompt() {
-    assert(_inputState == InputState.canSubmitPrompt);
+    if (_inputState != InputState.canSubmitPrompt) {
+      debugPrint(
+        '_inputState on submit prompt: $_inputState\n'
+        'Which is not InputState.canSubmitPrompt.\n'
+        'Returning.',
+      );
+      return;
+    }
 
     // the mobile vkb can still cause a submission even if there is no text
     final text = _textController.text.trim();

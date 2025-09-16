@@ -3,7 +3,6 @@ import 'package:flutter/widgets.dart';
 import 'package:waveform_recorder/waveform_recorder.dart';
 
 import '../../styles/styles.dart';
-import '../../utility.dart';
 import '../chat_text_field.dart';
 import 'editing_indicator.dart';
 import 'input_state.dart';
@@ -91,10 +90,7 @@ class TextOrAudioInput extends StatelessWidget {
                       controller: _textController,
                       autofocus: _autofocus,
                       focusNode: _focusNode,
-                      textInputAction:
-                          isMobile
-                              ? TextInputAction.newline
-                              : TextInputAction.done,
+                      textInputAction: TextInputAction.newline,
                       onSubmitted:
                           _inputState == InputState.disabled
                               ? null
