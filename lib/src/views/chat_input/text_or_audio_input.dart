@@ -91,10 +91,7 @@ class TextOrAudioInput extends StatelessWidget {
                       controller: _textController,
                       autofocus: _autofocus,
                       focusNode: _focusNode,
-                      textInputAction:
-                          isMobile
-                              ? TextInputAction.newline
-                              : TextInputAction.done,
+                      textInputAction: TextInputAction.newline,
                       onSubmitted:
                           _inputState == InputState.disabled
                               ? null
