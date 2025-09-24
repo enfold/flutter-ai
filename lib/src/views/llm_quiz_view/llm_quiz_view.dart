@@ -73,6 +73,7 @@ class LlmQuizView extends StatefulWidget {
     required this.startOver,
     LlmChatViewStyle? style,
     ResponseBuilder? responseBuilder,
+    ResponseBuilder? mapBuilder,
     LlmStreamGenerator? messageSender,
     SpeechToTextConverter? speechToText,
     // XXXXXXXX Temporarily disabled XXXXXXXX
@@ -89,6 +90,7 @@ class LlmQuizView extends StatefulWidget {
   }) : viewModel = ChatViewModel(
          provider: provider,
          responseBuilder: responseBuilder,
+         mapBuilder: mapBuilder,
          messageSender: messageSender,
          speechToText: speechToText,
          style: style,
