@@ -31,6 +31,7 @@ class ChatViewModel {
     required this.suggestions,
     required this.welcomeMessage,
     required this.responseBuilder,
+    required this.mapBuilder,
     required this.messageSender,
     required this.speechToText,
     required this.enableAttachments,
@@ -68,6 +69,12 @@ class ChatViewModel {
   /// in the interface, enabling tailored presentation of messages.
   final ResponseBuilder? responseBuilder;
 
+  /// The builder for the chat response that includes GIS information.
+  ///
+  /// This builder allows for customization of how GIS chat responses are rendered
+  /// in the interface, enabling tailored presentation of GIS messages.
+  final ResponseBuilder? mapBuilder;
+
   /// The message sender for the chat interface.
   ///
   /// This optional generator is used to send messages to the LLM, allowing for
@@ -103,6 +110,7 @@ class ChatViewModel {
           other.suggestions == suggestions &&
           other.welcomeMessage == welcomeMessage &&
           other.responseBuilder == responseBuilder &&
+          other.mapBuilder == mapBuilder &&
           other.messageSender == messageSender &&
           other.enableAttachments == enableAttachments &&
           other.enableVoiceNotes == enableVoiceNotes);
@@ -115,6 +123,7 @@ class ChatViewModel {
     suggestions,
     welcomeMessage,
     responseBuilder,
+    mapBuilder,
     messageSender,
     enableAttachments,
     enableVoiceNotes,
